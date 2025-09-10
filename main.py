@@ -3,8 +3,3 @@ from flask_login import LoginManager, login_required, current_user, login_user, 
 
 
 app = Flask(__name__)
-
-
-@app.route("/", methods=["GET", "POST"])
-def get():
-    return render_template("index.html")
