@@ -1,6 +1,9 @@
-from flask import Flask, flash, render_template, redirect
+from flask import Flask, flash, render_template, redirect, url_for, request
 from flask_login import LoginManager, login_required, current_user, login_user, logout_user
 
+
+from forms import SigninForm, SignUpForm
+from models import User, db
 
 app = Flask(__name__)
 
@@ -29,14 +32,14 @@ def sign_up():
         db.session.add(user)
         db.session.commit()
 
-        login_user(user) 
+        login_user(user)
         flash("Ви успішно зареєструвались")
-        return redirect(url_for("index"))  
+        return redirect(url_for("index"))
 
     return render_template("sign_up.html", form=sign_up_form)
 
 @app.route("/signIn/", methods=["GET", "POST"], endpoint="sign_in")
-def sign_in_view():  
+def sign_in_view():
     form = SigninForm()
     if request.method == "POST" and form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -55,3 +58,13 @@ def sign_in_view():
 def logout():
     logout_user()
     return redirect(url_for("sign_in"))
+
+
+with app.app_context():
+    db.drop_all()
+    db.create_all()
+
+
+
+# if __name__ == "main":
+#     app.run(debug=True)

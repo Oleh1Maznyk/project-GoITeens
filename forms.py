@@ -6,7 +6,7 @@ class SignUpForm(FlaskForm):
         label="Логін користувача",
         validators=[wtforms.validators.DataRequired(), wtforms.validators.length(min=3)]
     )
-    password = wtforms.PasswordField(   
+    password = wtforms.PasswordField(
         label="Пароль",
         validators=[wtforms.validators.DataRequired(), wtforms.validators.length(min=6)]
     )
@@ -20,7 +20,7 @@ class SigninForm(FlaskForm):
         label="Логін користувача",
         validators=[wtforms.validators.DataRequired(), wtforms.validators.length(min=3)]
     )
-    password = wtforms.PasswordField(   
+    password = wtforms.PasswordField(
         label="Пароль",
         validators=[wtforms.validators.DataRequired(), wtforms.validators.length(min=6)]
     )

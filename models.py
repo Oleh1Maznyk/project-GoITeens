@@ -42,3 +42,5 @@ class Menu(Base):
     description: Mapped[Optional[str]] = mapped_column(Text(), nullable=True, default=None)
 
 
+
+
