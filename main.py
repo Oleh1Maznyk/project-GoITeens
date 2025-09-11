@@ -60,11 +60,11 @@ def logout():
     return redirect(url_for("sign_in"))
 
 
-with app.app_context():
-    db.drop_all()
-    db.create_all()
+# with app.app_context():
+#     db.drop_all()
+#     db.create_all()
 
 
 
-# if __name__ == "main":
-#     app.run(debug=True)
+if __name__ == "main":
+    app.run(debug=True)

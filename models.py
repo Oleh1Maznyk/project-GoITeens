@@ -40,7 +40,8 @@ class Menu(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     type: Mapped[str] = mapped_column(String(20), unique=True)
     description: Mapped[Optional[str]] = mapped_column(Text(), nullable=True, default=None)
-
+    price: Mapped[int] = mapped_column()
+    active: Mapped[bool] = mapped_column(Boolean(), default=True)
 
 
 
