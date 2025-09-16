@@ -5,6 +5,7 @@ body {
     min-height: 100vh;
     color: #333;
     text-align: center;
+    background: linear-gradient(180deg, #fdf6f0 0%, #f5e6da 40%, #e6d0b9 100%);
 }
 
 body::before {
@@ -14,7 +15,6 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("https://st2.depositphotos.com/3542901/7064/i/950/depositphotos_70648893-stock-photo-empty-wood-table-and-coffee.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -55,12 +55,18 @@ header.navbar nav a:hover {
 }
 
 .hero {
+    background-color: #f5d5bb;
+    width: 1200px;
+    height: 600px;
     min-height: 70vh;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 10px;
 }
+
 .hero h2 {
     color: black;
     font-size: 2.5rem;
@@ -74,8 +80,9 @@ header.navbar nav a:hover {
 .btn {
     display: inline-block;
     padding: 0.8rem 1.5rem;
-    margin-top: 1rem;
-    background: #6f4e37;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: #5d2e0c;
     color: white;
     border-radius: 5px;
     text-decoration: none;
@@ -104,7 +111,7 @@ form input {
     margin: 0.5rem 0;
     padding: 0.8rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 1rem;
 }
 
 .dashboard {
@@ -112,11 +119,68 @@ form input {
 }
 
 footer {
+    display: flex;
     background: rgba(255, 255, 255, 0.5);
+    padding: 1rem;
+    justify-content: center;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 1rem;
+    color: white;
     text-align: center;
+}
+
+
+.menu {
+    display: flex;
+    background-color: #f5d5bb;
+    width: 1200px;
+    height: 600px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.menu h2 {
+    color: black;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+}
+
+.card {
+    background: #d4a373;
+    color: white;
+    border-radius: 12px;
+    width: 280px;
+    height: 350px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
 }
