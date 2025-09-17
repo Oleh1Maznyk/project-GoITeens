@@ -19,7 +19,7 @@ class User(Base, UserMixin):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     username: Mapped[str] = mapped_column(String(50), unique=True)
-    phone_numer: Mapped[int] = mapped_column(String(20))
+    phone_number: Mapped[str] = mapped_column(String(20))
     first_name: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
     last_name: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
     email: Mapped[Optional[str]] = mapped_column(String(120), nullable=True, default=None)
@@ -55,4 +55,4 @@ class Orders(Base):
     order_time: Mapped[datetime] = mapped_column(DateTime)
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
 
-    user = relationship("Users", foreign_keys="Orders.user_id", back_populates="orders")
+    user = relationship("User", foreign_keys="Orders.user_id")
