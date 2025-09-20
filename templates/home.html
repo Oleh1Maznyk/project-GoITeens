@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кав'ярня "Аромат" - Головна</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">☕ Кав'ярня "Аромат"</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Головна</a></li>
+                <li><a href="{{ url_for('menu') }}">Меню</a></li>
+            </ul>
+            <div class="user-info">
+                {% if current_user.is_authenticated %}
+                    <span>Привіт, {{ current_user.username }}!</span>
+                    <a href="{{ url_for('logout') }}" class="btn">Вийти</a>
+                {% else %}
+                    <a href="{{ url_for('signin') }}" class="btn">Увійти</a>
+                    <a href="{{ url_for('signup') }}" class="btn">Реєстрація</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Hero section for home page -->
+    <section class="hero">
+        <div class="container">
+            <h1>Ласкаво просимо до кав'ярні "Аромат"</h1>
+            <p>Найкраща кава в місті, затишна атмосфера та неперевершені десерти чекають на вас!</p>
+            <a href="{{ url_for('menu') }}" class="btn btn-primary">Переглянути меню</a>
+        </div>
+    </section>
+
+    <!-- About section for home page -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Про нас</h2>
+                    <p>Кав'ярня "Аромат" - це місце, де кожна чашка кави готується з любов'ю та увагою до деталей. Ми використовуємо тільки найкращі зерна з різних куточків світу та готуємо свіжу випічку щодня.</p>
+                    <p>Наша команда професійних бариста завжди готова приготувати для вас ідеальний напій, а затишна атмосфера зробить ваш відпочинок незабутнім.</p>
+                </div>
+                <div class="about-features">
+                    <div class="feature">
+                        <div class="feature-icon">☕</div>
+                        <h3>Свіжа кава</h3>
+                        <p>Щоденно обсмажуємо зерна для найкращого смаку</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🥐</div>
+                        <h3>Домашня випічка</h3>
+                        <p>Свіжі круасани та десерти власного виробництва</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🏠</div>
+                        <h3>Затишна атмосфера</h3>
+                        <p>Комфортне місце для роботи та відпочинку</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular items preview for home page -->
+    <section class="popular-section">
+        <div class="container">
+            <h2 class="section-title">Популярні позиції</h2>
+            <div class="menu-grid">
+                {% for item in menu_items[:3] %}
+                <div class="menu-item">
+                    <div class="menu-item-image">
+                        {% if item.type in ['Еспресо', 'Капучино', 'Латте', 'Американо', 'Мокко', 'Флет Вайт'] %}☕
+                        {% elif item.type in ['Круасан', 'Маффін', 'Багет', 'Данішка'] %}🥐
+                        {% elif item.type in ['Чізкейк', 'Тірамісу', 'Шоколадний торт', 'Панна котта'] %}🍰
+                        {% else %}🥤
+                        {% endif %}
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="category-badge">
+                            {% if item.type in ['Круасан', 'Маффін', 'Багет', 'Данішка'] %}
+                                Випічка
+                            {% elif item.type in ['Чізкейк', 'Тірамісу', 'Шоколадний торт', 'Панна котта'] %}
+                                Десерти
+                            {% elif item.type in ['Еспресо', 'Капучино', 'Латте', 'Американо', 'Мокко', 'Флет Вайт'] %}
+                                Гарячі напої
+                            {% else %}
+                                Холодні напої
+                            {% endif %}
+                        </div>
+                        <h3>{{ item.type }}</h3>
+                        <p>{{ item.description }}</p>
+                        <div class="price">{{ item.price }} грн</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ url_for('menu') }}" class="btn">Переглянути повне меню</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Контакти</h3>
+                    <p>📍 вул. Центральна, 123</p>
+                    <p>☎️ +380 (44) 123-45-67</p>
+                    <p>✉️ info@aroma-cafe.ua</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Години роботи</h3>
+                    <p>Пн-Пт: 7:00 - 22:00</p>
+                    <p>Сб-Нд: 8:00 - 23:00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Слідкуйте за нами</h3>
+                    <p>📱 Instagram: @aroma_cafe</p>
+                    <p>📘 Facebook: Кав'ярня Аромат</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Кав'ярня "Аромат". Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

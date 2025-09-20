@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід - Кав'ярня "Аромат"</title>
+    <!-- replaced inline styles with external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-logo">☕</div>
+        <h2 class="auth-title">Вхід</h2>
+        
+        <div class="auth-flash-messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="auth-flash-message">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <form method="POST">
+            <div class="auth-form-group">
+                <label for="username">Ім'я користувача:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="auth-form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="auth-btn">Увійти</button>
+        </form>
+        
+        <div class="auth-link">
+            <p>Немає акаунту? <a href="{{ url_for('signup') }}">Зареєструватися</a></p>
+        </div>
+        
+        <div class="back-home">
+            <a href="{{ url_for('home') }}">← Повернутися на головну</a>
+        </div>
+    </div>
+</body>
+</html>

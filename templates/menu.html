@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кав'ярня "Аромат" - Меню</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">☕ Кав'ярня "Аромат"</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Головна</a></li>
+                <li><a href="{{ url_for('menu') }}" class="active">Меню</a></li>
+            </ul>
+            <div class="user-info">
+                {% if current_user.is_authenticated %}
+                    <span>Привіт, {{ current_user.username }}!</span>
+                    <a href="{{ url_for('logout') }}" class="btn">Вийти</a>
+                {% else %}
+                    <a href="{{ url_for('signin') }}" class="btn">Увійти</a>
+                    <a href="{{ url_for('signup') }}" class="btn">Реєстрація</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Наше меню</h1>
+            <p>Оберіть з широкого асортименту кавових напоїв, десертів та випічки</p>
+        </div>
+    </section>
+
+    <section class="menu-filters">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">Все меню</button>
+                <button class="filter-btn" data-category="hot-drinks">Гарячі напої</button>
+                <button class="filter-btn" data-category="cold-drinks">Холодні напої</button>
+                <button class="filter-btn" data-category="desserts">Десерти</button>
+                <button class="filter-btn" data-category="pastries">Випічка</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="full-menu">
+        <div class="container">
+            <div class="menu-category" data-category="hot-drinks">
+                <h2 class="category-title">☕ Гарячі напої</h2>
+                <div class="menu-grid">
+                    {% for item in menu_items %}
+                        {% if item.type in ['Еспресо', 'Капучино', 'Латте', 'Американо', 'Мокко', 'Флет Вайт'] %}
+                        <div class="menu-item">
+                            <div class="menu-item-image">☕</div>
+                            <div class="menu-item-content">
+                                <div class="category-badge hot-drinks">Гарячі напої</div>
+                                <h3>{{ item.type }}</h3>
+                                <p>{{ item.description }}</p>
+                                <div class="price">{{ item.price }} грн</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="menu-category" data-category="cold-drinks">
+                <h2 class="category-title">🥤 Холодні напої</h2>
+                <div class="menu-grid">
+                    {% for item in menu_items %}
+                        {% if item.type in ['Фрапе', 'Айс латте', 'Лимонад', 'Смузі'] %}
+                        <div class="menu-item">
+                            <div class="menu-item-image">🥤</div>
+                            <div class="menu-item-content">
+                                <div class="category-badge cold-drinks">Холодні напої</div>
+                                <h3>{{ item.type }}</h3>
+                                <p>{{ item.description }}</p>
+                                <div class="price">{{ item.price }} грн</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="menu-category" data-category="desserts">
+                <h2 class="category-title">🍰 Десерти</h2>
+                <div class="menu-grid">
+                    {% for item in menu_items %}
+                        {% if item.type in ['Чізкейк', 'Тірамісу', 'Шоколадний торт', 'Панна котта'] %}
+                        <div class="menu-item">
+                            <div class="menu-item-image">🍰</div>
+                            <div class="menu-item-content">
+                                <div class="category-badge desserts">Десерти</div>
+                                <h3>{{ item.type }}</h3>
+                                <p>{{ item.description }}</p>
+                                <div class="price">{{ item.price }} грн</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="menu-category" data-category="pastries">
+                <h2 class="category-title">🥐 Випічка</h2>
+                <div class="menu-grid">
+                    {% for item in menu_items %}
+                        {% if item.type in ['Круасан', 'Маффін', 'Багет', 'Данішка'] %}
+                        <div class="menu-item">
+                            <div class="menu-item-image">🥐</div>
+                            <div class="menu-item-content">
+                                <div class="category-badge pastries">Випічка</div>
+                                <h3>{{ item.type }}</h3>
+                                <p>{{ item.description }}</p>
+                                <div class="price">{{ item.price }} грн</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Контакти</h3>
+                    <p>📍 вул. Центральна, 123</p>
+                    <p>☎️ +380 (44) 123-45-67</p>
+                    <p>✉️ info@aroma-cafe.ua</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Години роботи</h3>
+                    <p>Пн-Пт: 7:00 - 22:00</p>
+                    <p>Сб-Нд: 8:00 - 23:00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Слідкуйте за нами</h3>
+                    <p>📱 Instagram: @aroma_cafe</p>
+                    <p>📘 Facebook: Кав'ярня Аромат</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Кав'ярня "Аромат". Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const menuCategories = document.querySelectorAll('.menu-category');
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (category === 'all') {
+                        menuCategories.forEach(cat => cat.style.display = 'block');
+                        menuItems.forEach(item => item.style.display = 'block');
+                    } else {
+                        menuCategories.forEach(cat => {
+                            if (cat.getAttribute('data-category') === category) {
+                                cat.style.display = 'block';
+                            } else {
+                                cat.style.display = 'none';
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

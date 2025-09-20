@@ -1,67 +1,98 @@
 <!DOCTYPE html>
 <html lang="uk">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кав'ярня Aroma</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/static/static.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кав'ярня "Аромат" - Головна</title>
+    <!-- replaced inline styles with external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">☕ Кав'ярня "Аромат"</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Головна</a></li>
+                <li><a href="{{ url_for('menu') }}">Меню</a></li>
+            </ul>
+            <div class="user-info">
+                <!-- Fixed user authentication check to use current_user -->
+                {% if current_user.is_authenticated %}
+                    <span>Привіт, {{ current_user.username }}!</span>
+                    <a href="{{ url_for('logout') }}" class="btn">Вийти</a>
+                {% else %}
+                    <a href="{{ url_for('signin') }}" class="btn">Увійти</a>
+                    <a href="{{ url_for('signup') }}" class="btn">Реєстрація</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
 
-  <header class="navbar">
-      <h1 class="logo">☕ Aroma Coffee</h1>
-      <nav>
-          <a href="register.html" class="btn">Реєстрація</a>
-          <a href="index.html">Головна</a>
-      </nav>
-  </header>
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 
-  <section class="hero">
-      <h2>Ласкаво просимо у нашу кав’ярню</h2>
-      <p>Насолоджуйтесь свіжою кавою щодня!</p>
-  </section>
-
-  <section class="menu">
-    <h2>Меню</h2>
-      <div class="card-group">
-        <div class="card">
-          <img src="https://www.torrefacto.ru/upload/uf/d00/mdoibknztzibkoforsrbpa93ijzbhw9f.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">...</p>
-            <p class="card-text"><small class="text-body-secondary">...</small></p>
-          </div>
+    <section class="hero">
+        <div class="container">
+            <h1>Ласкаво просимо до кав'ярні "Аромат"</h1>
+            <p>Найкраща кава в місті, затишна атмосфера та неперевершені десерти чекають на вас!</p>
+            <a href="{{ url_for('menu') }}" class="btn">Переглянути меню</a>
         </div>
-        <div class="card">
-          <img src="https://media.istockphoto.com/id/505168330/ru/%D1%84%D0%BE%D1%82%D0%BE/%D1%87%D0%B0%D1%88%D0%BA%D0%B0-%D1%81-%D0%BA%D0%BE%D1%84%D0%B5-%D0%BB%D0%B0%D1%82%D1%82%D0%B5-%D0%BA%D0%B0%D1%84%D0%B5-%D0%BA%D0%BE%D1%84%D0%B5%D0%B9%D0%BD%D1%8B%D1%85-%D0%B7%D0%B5%D1%80%D0%B5%D0%BD-%D0%B8-%D0%BA%D0%BE%D1%80%D0%B8%D1%86%D1%8B-sticks.jpg?s=612x612&w=0&k=20&c=e-yWSH289Av8MI5ldToYvMvkbbuaXXs2HKd7IAHTqUs=" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">...</p>
-            <p class="card-text"><small class="text-body-secondary">...</small></p>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://shima-newriga.ru/wp-content/uploads/2020/04/Espresso-_-Dvojnoj-espresso.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">...</p>
-            <p class="card-text"><small class="text-body-secondary">...</small></p>
-          </div>
-        </div>
-      </div>
-  </section>
+    </section>
 
-  <!-- <footer>
-      <p>© 2025 Aroma Coffee</p>
-  </footer> -->
+    <section class="menu-section">
+        <div class="container">
+            <h2 class="section-title">Наше меню</h2>
+            <div class="menu-grid">
+                {% for item in menu_items[:6] %}
+                <div class="menu-item">
+                    <div class="menu-item-image">
+                        <!-- Fixed emoji display logic to properly match menu item types -->
+                        {% if item.type in ['Еспресо', 'Капучино', 'Латте', 'Американо'] %}☕
+                        {% elif item.type == 'Круасан' %}🥐
+                        {% elif item.type == 'Чізкейк' %}🍰
+                        {% else %}🥤
+                        {% endif %}
+                    </div>
+                    <div class="menu-item-content">
+                        <!-- Updated category logic: Круасан -> Випічка, Чізкейк -> Десерти, Кава -> Напої -->
+                        <div class="category-badge">
+                            {% if item.type == 'Круасан' %}
+                                Випічка
+                            {% elif item.type == 'Чізкейк' %}
+                                Десерти
+                            {% elif item.type in ['Еспресо', 'Капучино', 'Латте', 'Американо'] %}
+                                Напої
+                            {% else %}
+                                Напої
+                            {% endif %}
+                        </div>
+                        <h3>{{ item.type }}</h3>
+                        <p>{{ item.description }}</p>
+                        <div class="price">{{ item.price }} грн</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if menu_items|length > 6 %}
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ url_for('menu') }}" class="btn">Переглянути повне меню</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Кав'ярня "Аромат". Всі права захищені.</p>
+            <p>📍 вул. Центральна, 123 | ☎️ +380 (44) 123-45-67</p>
+        </div>
+    </footer>
 </body>
-
-
 </html>
