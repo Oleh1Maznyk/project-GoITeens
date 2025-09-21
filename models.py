@@ -60,13 +60,42 @@ class Orders(Base):
     user: Mapped["User"] = relationship("User", back_populates="orders")
 
 
-def init_db_data():
-    if db.session.query(Menu).count() == 0:
-        sample_items = [
-            Menu(type="Espresso", description="Міцна кава", price=2.5, image_url="espresso.jpg"),
-            Menu(type="Cappuccino", description="Кава з молоком і пінкою", price=3.0, image_url="cappuccino.jpg"),
-            Menu(type="Cheesecake", description="Сирний десерт", price=4.5, image_url="cheesecake.jpg"),
-            Menu(type="Green Tea", description="Ароматний зелений чай", price=2.0, image_url="green_tea.jpg"),
+def init_sample_data():
+    if Menu.query.count() == 0:
+        sample_menu = [
+
+            # Кавові напої
+            Menu(type='Еспресо', description='Класичний італійський еспресо з насиченим смаком', price=45, active=True),
+            Menu(type='Капучино', description='Еспресо з ніжною молочною піною та корицею', price=65, active=True),
+            Menu(type='Латте', description='Еспресо з великою кількістю молока та карамельним сиропом', price=70, active=True),
+            Menu(type='Американо', description='Еспресо з гарячою водою, класичний американський стиль', price=50, active=True),
+            Menu(type='Мокко', description='Шоколадний кавовий напій з вершками', price=75, active=True),
+            Menu(type='Флет Вайт', description='Подвійний еспресо з мікропіною', price=68, active=True),
+
+            # Десерти
+            Menu(type='Чізкейк', description='Ніжний чізкейк з лісовими ягодами та м\'ятою', price=120, active=True),
+            Menu(type='Тірамісу', description='Італійський десерт з маскарпоне та кавою', price=135, active=True),
+            Menu(type='Шоколадний торт', description='Багатошаровий торт з темним шоколадом', price=110, active=True),
+            Menu(type='Панна котта', description='Італійський десерт з ванільним кремом', price=95, active=True),
+
+            # Випічка
+            Menu(type='Круасан', description='Свіжий французький круасан з шоколадною начинкою', price=85, active=True),
+            Menu(type='Маффін', description='Домашній маффін з чорницею та лимонною цедрою', price=65, active=True),
+            Menu(type='Багет', description='Хрусткий французький багет з травами', price=45, active=True),
+            Menu(type='Данішка', description='Данське тістечко з яблучною начинкою', price=75, active=True),
+
+            # Холодні напої
+            Menu(type='Фрапе', description='Холодний кавовий напій з льодом та вершками', price=80, active=True),
+            Menu(type='Айс латте', description='Холодний латте з ванільним сиропом', price=75, active=True),
+            Menu(type='Лимонад', description='Свіжий домашній лимонад з м\'ятою', price=55, active=True),
+            Menu(type='Смузі', description='Фруктовий смузі з манго та бананом', price=85, active=True),
         ]
-        db.session.add_all(sample_items)
-        db.session.commit()
+
+        try:
+            for item in sample_menu:
+                db.session.add(item)
+            db.session.commit()
+            print(f"Додано {len(sample_menu)} позицій до меню")
+        except Exception as e:
+            print(f"Помилка при додаванні даних: {e}")
+            db.session.rollback()
