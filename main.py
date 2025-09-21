@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from models import db, User, Menu, Orders
+
+from models import db, User, Menu
+from config import settings
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-change-this-in-production'
-
+app.secret_key = settings.secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///coffee_shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
